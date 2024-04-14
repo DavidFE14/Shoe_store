@@ -13,7 +13,8 @@ router.post('/', (req, res) => {
                 image: item.image,
                 description: item.description,
                 price: item.price,
-                quantity: item.quantity
+                quantity: item.quantity,
+                cat_name: item.catname
             });
         })
         .catch(err => {
@@ -32,34 +33,31 @@ router.get('/', (req, res) => {
                 image: product.image,
                 description: product.description,
                 price: product.price,
-                quantity: product.quantity
+                quantity: product.quantity,
+                cat_name: product.catname
             };
         }));
     })
-
         .catch(err => {
             return res.status(500).send(err);
         });
-
-
 })
-router.get('/', async (req, res) => {
-    try {
-        const products = await Product.find();
-        res.render('pages/index', { products: products });
-    } catch (err) {
-        res.status(500).send({
-            error: err.message
-        });
-    }
-});
+// router.get('/', async (req, res) => {
+//     try {
+//         const products = await Product.find();
+//         res.render('pages/index', { products: products });
+//     } catch (err) {
+//         res.status(500).send({
+//             error: err.message
+//         });
+//     }
+// });
 // Get detail
 router.get('/:product_id', (req, res) => {
     Product.findById(req.params.product_id).then((product) => {
         return res.send(product);
     });
 })
-// delete products
 // delete products
 router.delete('/:product_id', (req, res, next) => {
     Product.findByIdAndDelete(req.params.product_id).then((product) => {
